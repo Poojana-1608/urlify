@@ -35,6 +35,9 @@ const redirectUrl = async (req, res) => {
 
     console.log("ShortCode Received:", shortCode);
 
+    const allUrls = await Url.find();
+    console.log("All URLs Count:", allUrls.length);
+
     const url = await Url.findOne({ shortCode });
 
     console.log("URL Found:", url);
@@ -44,16 +47,8 @@ const redirectUrl = async (req, res) => {
         message: "URL Not Found",
       });
     }
-    console.log("ShortCode Received:", shortCode);
 
-const allUrls = await Url.find();
-console.log("All URLs Count:", allUrls.length);
-console.log("All URLs:", allUrls);
-
-const url = await Url.findOne({ shortCode });
-
-console.log("URL Found:", url);
-
+    // Update Analytics
     url.clicks += 1;
     url.lastVisited = new Date();
 
@@ -62,14 +57,13 @@ console.log("URL Found:", url);
     return res.redirect(url.originalUrl);
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
-    res.status(500).json({
+    return res.status(500).json({
       message: error.message,
     });
   }
 };
-
 // Get User URLs
 const getUserUrls = async (req, res) => {
   try {
