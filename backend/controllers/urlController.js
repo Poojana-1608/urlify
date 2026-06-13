@@ -8,7 +8,7 @@ const createShortUrl = async (req, res) => {
 
     const shortCode = shortid.generate();
 
-    await Url.create({
+    const newUrl = await Url.create({
       originalUrl,
       shortCode,
       user: req.user.id,
@@ -18,6 +18,7 @@ const createShortUrl = async (req, res) => {
       message: "Short URL Created Successfully",
       shortCode,
       shortUrl: `https://urlify-backened-ycff.onrender.com/${shortCode}`,
+      data: newUrl,
     });
 
   } catch (error) {
@@ -32,7 +33,11 @@ const redirectUrl = async (req, res) => {
   try {
     const { shortCode } = req.params;
 
+    console.log("ShortCode Received:", shortCode);
+
     const url = await Url.findOne({ shortCode });
+
+    console.log("URL Found:", url);
 
     if (!url) {
       return res.status(404).json({
@@ -40,7 +45,6 @@ const redirectUrl = async (req, res) => {
       });
     }
 
-    // Update Analytics
     url.clicks += 1;
     url.lastVisited = new Date();
 
@@ -60,7 +64,7 @@ const getUserUrls = async (req, res) => {
   try {
     const urls = await Url.find({
       user: req.user.id,
-    });
+    }).sort({ createdAt: -1 });
 
     res.status(200).json(urls);
 
