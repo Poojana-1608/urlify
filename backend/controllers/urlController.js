@@ -17,7 +17,6 @@ const createShortUrl = async (req, res) => {
     res.status(201).json({
       message: "Short URL Created Successfully",
       shortCode,
-      
       shortUrl: `https://urlify-backend-poojana.onrender.com/${shortCode}`,
       data: newUrl,
     });
@@ -51,9 +50,11 @@ const redirectUrl = async (req, res) => {
 
     await url.save();
 
-    res.redirect(url.originalUrl);
+    return res.redirect(url.originalUrl);
 
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message,
     });
