@@ -11,18 +11,18 @@ const createShortUrl = async (req, res) => {
     await Url.create({
       originalUrl,
       shortCode,
-      user: req.user.id
+      user: req.user.id,
     });
 
     res.status(201).json({
       message: "Short URL Created Successfully",
       shortCode,
-      shortUrl: `http://localhost:5000/${shortCode}`
+      shortUrl: `https://urlify-backened-ycff.onrender.com/${shortCode}`,
     });
 
   } catch (error) {
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -36,7 +36,7 @@ const redirectUrl = async (req, res) => {
 
     if (!url) {
       return res.status(404).json({
-        message: "URL Not Found"
+        message: "URL Not Found",
       });
     }
 
@@ -50,7 +50,7 @@ const redirectUrl = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -59,14 +59,14 @@ const redirectUrl = async (req, res) => {
 const getUserUrls = async (req, res) => {
   try {
     const urls = await Url.find({
-      user: req.user.id
+      user: req.user.id,
     });
 
     res.status(200).json(urls);
 
   } catch (error) {
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -78,25 +78,25 @@ const deleteUrl = async (req, res) => {
 
     if (!url) {
       return res.status(404).json({
-        message: "URL Not Found"
+        message: "URL Not Found",
       });
     }
 
     if (url.user.toString() !== req.user.id) {
       return res.status(401).json({
-        message: "Not Authorized"
+        message: "Not Authorized",
       });
     }
 
     await url.deleteOne();
 
     res.status(200).json({
-      message: "URL Deleted Successfully"
+      message: "URL Deleted Successfully",
     });
 
   } catch (error) {
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -105,7 +105,7 @@ const deleteUrl = async (req, res) => {
 const getAnalytics = async (req, res) => {
   try {
     const urls = await Url.find({
-      user: req.user.id
+      user: req.user.id,
     });
 
     const totalUrls = urls.length;
@@ -117,12 +117,12 @@ const getAnalytics = async (req, res) => {
 
     res.status(200).json({
       totalUrls,
-      totalClicks
+      totalClicks,
     });
 
   } catch (error) {
     res.status(500).json({
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -132,5 +132,5 @@ module.exports = {
   redirectUrl,
   getUserUrls,
   deleteUrl,
-  getAnalytics
+  getAnalytics,
 };
