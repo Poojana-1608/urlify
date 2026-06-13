@@ -36,7 +36,7 @@ const redirectUrl = async (req, res) => {
     console.log("ShortCode Received:", shortCode);
 
     const allUrls = await Url.find();
-    console.log("All URLs Count:", allUrls.length);
+console.log("All URLs:", allUrls);
 
     const url = await Url.findOne({ shortCode });
 
