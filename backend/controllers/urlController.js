@@ -17,7 +17,8 @@ const createShortUrl = async (req, res) => {
     res.status(201).json({
       message: "Short URL Created Successfully",
       shortCode,
-      shortUrl: `https://urlify-backened-ycff.onrender.com/${shortCode}`,
+      
+      shortUrl: `https://urlify-backend-poojana.onrender.com/${shortCode}`,
       data: newUrl,
     });
 
