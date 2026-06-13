@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#07142e;
+}
+
+.auth-container{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.auth-card{
+  width:420px;
+  background:#182544;
+  padding:40px;
+  border-radius:20px;
+  box-shadow:0 0 30px rgba(37,99,235,0.25);
+  text-align:center;
+}
+
+.auth-card h1{
+  margin-bottom:30px;
+  font-size:2rem;
+  background:linear-gradient(
+    90deg,
+    #4f7cff,
+    #d946ef
+  );
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.auth-card input{
+  width:100%;
+  padding:15px;
+  margin-bottom:20px;
+  border:none;
+  border-radius:10px;
+  background:#0f172a;
+  color:white;
+  font-size:16px;
+}
+
+.auth-card button{
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.auth-card button:hover{
+  background:#1d4ed8;
+  transform:translateY(-2px);
+}
+
+.auth-link{
+  margin-top:20px;
+  color:#94a3b8;
+}
+
+.auth-link a{
+  color:#60a5fa;
+  text-decoration:none;
+}
