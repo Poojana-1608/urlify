@@ -44,6 +44,15 @@ const redirectUrl = async (req, res) => {
         message: "URL Not Found",
       });
     }
+    console.log("ShortCode Received:", shortCode);
+
+const allUrls = await Url.find();
+console.log("All URLs Count:", allUrls.length);
+console.log("All URLs:", allUrls);
+
+const url = await Url.findOne({ shortCode });
+
+console.log("URL Found:", url);
 
     url.clicks += 1;
     url.lastVisited = new Date();
