@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "./Auth.css";
 
 function Register() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,11 +20,16 @@ function Register() {
         password,
       });
 
-      alert(res.data.message);
+      alert(res.data.message || "User Registered Successfully");
 
+      // Clear form
       setName("");
       setEmail("");
       setPassword("");
+
+      // Redirect to Login page
+      navigate("/login");
+
     } catch (error) {
       alert(
         error.response?.data?.message ||
@@ -42,9 +50,7 @@ function Register() {
             type="text"
             placeholder="Name"
             value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
+            onChange={(e) => setName(e.target.value)}
             required
           />
 
@@ -52,9 +58,7 @@ function Register() {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
 
@@ -62,9 +66,7 @@ function Register() {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
 
