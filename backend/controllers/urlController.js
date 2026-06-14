@@ -4,7 +4,14 @@ const shortid = require("shortid");
 // Create Short URL
 const createShortUrl = async (req, res) => {
   try {
-    const { originalUrl } = req.body;
+    let { originalUrl } = req.body;
+
+if (
+  !originalUrl.startsWith("http://") &&
+  !originalUrl.startsWith("https://")
+) {
+  originalUrl = "https://" + originalUrl;
+}
 
     const shortCode = shortid.generate();
 
