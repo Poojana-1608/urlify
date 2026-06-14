@@ -37,9 +37,17 @@ const redirectUrl = async (req, res) => {
 
     const urls = await Url.find();
 
-    const url = urls.find(
-      item => item.shortCode.trim() === shortCode.trim()
-    );
+    console.log("Searching for:", shortCode);
+
+urls.forEach(item => {
+  console.log("DB ShortCode:", JSON.stringify(item.shortCode));
+});
+
+const url = urls.find(
+  item => item.shortCode.toString().trim() === shortCode.toString().trim()
+);
+
+console.log("URL Found:", url);
 
     console.log("URL Found:", url);
 
