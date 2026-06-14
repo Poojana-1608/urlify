@@ -11,6 +11,8 @@ function Dashboard() {
 
   const token = localStorage.getItem("token");
 
+  const BASE_URL = "https://urlify-backend-poojana.onrender.com";
+
   const fetchUrls = async () => {
     try {
       const res = await API.get("/url/myurls", {
@@ -79,7 +81,7 @@ function Dashboard() {
 
   const copyUrl = (shortCode) => {
     navigator.clipboard.writeText(
-      `http://localhost:5000/${shortCode}`
+      `${BASE_URL}/${shortCode}`
     );
 
     alert("Short URL Copied");
@@ -173,7 +175,7 @@ function Dashboard() {
 
                   <td>
                     <a
-                      href={`http://localhost:5000/${url.shortCode}`}
+                      href={`${BASE_URL}/${url.shortCode}`}
                       target="_blank"
                       rel="noreferrer"
                       style={{
@@ -182,7 +184,7 @@ function Dashboard() {
                         fontWeight: "600",
                       }}
                     >
-                      {url.shortCode}
+                      {BASE_URL}/{url.shortCode}
                     </a>
                   </td>
 
@@ -246,7 +248,7 @@ function Dashboard() {
                       <div className="qr-container">
 
                         <QRCodeCanvas
-                          value={`http://localhost:5000/${url.shortCode}`}
+                          value={`${BASE_URL}/${url.shortCode}`}
                           size={150}
                         />
 
