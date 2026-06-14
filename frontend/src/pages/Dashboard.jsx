@@ -173,114 +173,124 @@ function Dashboard() {
             </tr>
           </thead>
 
-          <tbody>
+         <tbody>
 
-            {urls.map((url) => (
-              <>
-                <tr key={url._id}>
+  {urls.length === 0 ? (
+    <tr>
+      <td
+        colSpan="6"
+        style={{
+          textAlign: "center",
+          padding: "30px",
+          fontSize: "18px",
+        }}
+      >
+        No URLs created yet 🚀
+      </td>
+    </tr>
+  ) : (
+    urls.map((url) => (
+      <>
+        <tr key={url._id}>
 
-                  
-                  <td
-  style={{
-    maxWidth: "250px",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap",
-  }}
-  title={url.originalUrl}
->
-  {url.originalUrl}
-</td>
+          <td
+            style={{
+              maxWidth: "250px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+            title={url.originalUrl}
+          >
+            {url.originalUrl}
+          </td>
 
-                  <td>
-                    <a
-                      href={`${BASE_URL}/${url.shortCode}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{
-                        color: "#60a5fa",
-                        textDecoration: "none",
-                        fontWeight: "600",
-                      }}
-                    >
-                      {BASE_URL}/{url.shortCode}
-                    </a>
-                  </td>
+          <td>
+            <a
+              href={`${BASE_URL}/${url.shortCode}`}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                color: "#60a5fa",
+                textDecoration: "none",
+                fontWeight: "600",
+              }}
+            >
+              {BASE_URL}/{url.shortCode}
+            </a>
+          </td>
 
-                  <td>{url.clicks}</td>
+          <td>{url.clicks}</td>
 
-                  <td>
-                    {new Date(
-                      url.createdAt
-                    ).toLocaleDateString()}
-                  </td>
+          <td>
+            {new Date(
+              url.createdAt
+            ).toLocaleDateString()}
+          </td>
 
-                  <td>
-                    {url.lastVisited
-                      ? new Date(
-                          url.lastVisited
-                        ).toLocaleDateString()
-                      : "Never"}
-                  </td>
+          <td>
+            {url.lastVisited
+              ? new Date(
+                  url.lastVisited
+                ).toLocaleDateString()
+              : "Never"}
+          </td>
 
-                  <td>
+          <td>
 
-                    <button
-                      className="copy-btn"
-                      onClick={() =>
-                        copyUrl(url.shortCode)
-                      }
-                    >
-                      Copy
-                    </button>
+            <button
+              className="copy-btn"
+              onClick={() =>
+                copyUrl(url.shortCode)
+              }
+            >
+              Copy
+            </button>
 
-                    <button
-                      className="qr-btn"
-                      onClick={() =>
-                        setShowQR(
-                          showQR === url.shortCode
-                            ? ""
-                            : url.shortCode
-                        )
-                      }
-                    >
-                      QR
-                    </button>
+            <button
+              className="qr-btn"
+              onClick={() =>
+                setShowQR(
+                  showQR === url.shortCode
+                    ? ""
+                    : url.shortCode
+                )
+              }
+            >
+              QR
+            </button>
 
-                    <button
-                      className="delete-btn"
-                      onClick={() =>
-                        deleteUrl(url._id)
-                      }
-                    >
-                      Delete
-                    </button>
+            <button
+              className="delete-btn"
+              onClick={() =>
+                deleteUrl(url._id)
+              }
+            >
+              Delete
+            </button>
 
-                  </td>
+          </td>
 
-                </tr>
+        </tr>
 
-                {showQR === url.shortCode && (
-                  <tr>
-                    <td colSpan="6">
+        {showQR === url.shortCode && (
+          <tr>
+            <td colSpan="6">
+              <div className="qr-container">
+                <QRCodeCanvas
+                  value={`${BASE_URL}/${url.shortCode}`}
+                  size={150}
+                />
+              </div>
+            </td>
+          </tr>
+        )}
 
-                      <div className="qr-container">
+      </>
+    ))
+  )}
 
-                        <QRCodeCanvas
-                          value={`${BASE_URL}/${url.shortCode}`}
-                          size={150}
-                        />
-
-                      </div>
-
-                    </td>
-                  </tr>
-                )}
-
-              </>
-            ))}
-
-          </tbody>
+</tbody>
 
         </table>
 
