@@ -136,6 +136,44 @@ body{
   padding:25px;
   border-radius:20px;
 }
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+}
+.copy-btn,
+.qr-btn,
+.delete-btn {
+  transition: 0.3s;
+}
+
+.copy-btn:hover,
+.qr-btn:hover,
+.delete-btn:hover {
+  transform: translateY(-2px);
+}
+.table-container {
+  overflow-x: auto;
+}
+.table-container {
+  overflow-x: auto;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+}
+
+.copy-btn,
+.qr-btn,
+.delete-btn {
+  transition: 0.3s;
+}
+
+.copy-btn:hover,
+.qr-btn:hover,
+.delete-btn:hover {
+  transform: translateY(-2px);
+}
 
 .table-container h2{
   margin-bottom:20px;
@@ -194,4 +232,24 @@ td{
   background:white;
   border-radius:12px;
   display:inline-block;
+}
+.table-container {
+  overflow-x: auto;
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+}
+
+.copy-btn,
+.qr-btn,
+.delete-btn {
+  transition: 0.3s;
+}
+
+.copy-btn:hover,
+.qr-btn:hover,
+.delete-btn:hover {
+  transform: translateY(-2px);
 }

@@ -101,7 +101,13 @@ function Dashboard() {
     <div className="dashboard">
 
       <nav className="navbar">
-        <h2 className="logo">URLIFY</h2>
+        <h2
+  className="logo"
+  onClick={() => window.location.reload()}
+  style={{ cursor: "pointer" }}
+>
+  URLIFY
+</h2>
 
         <button
           className="logout-btn"
@@ -115,7 +121,9 @@ function Dashboard() {
 
         <h1>Shorten Your Long URLs 🚀</h1>
 
-        <p>Track • Manage • Analyze</p>
+        <p>
+  Create short links, track clicks and manage URLs efficiently.
+</p>
 
         <div className="url-form">
           <input
@@ -171,7 +179,18 @@ function Dashboard() {
               <>
                 <tr key={url._id}>
 
-                  <td>{url.originalUrl}</td>
+                  
+                  <td
+  style={{
+    maxWidth: "250px",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  }}
+  title={url.originalUrl}
+>
+  {url.originalUrl}
+</td>
 
                   <td>
                     <a
