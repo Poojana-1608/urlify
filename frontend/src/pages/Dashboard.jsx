@@ -41,17 +41,11 @@ function Dashboard() {
     }
   };
 
-  const createUrl = async () => {
-if (
-  !originalUrl.trim() ||
-  (
-    !originalUrl.startsWith("http://") &&
-    !originalUrl.startsWith("https://")
-  )
-) {
-  alert("Please enter a valid URL");
-  return;
-} {
+ const createUrl = async () => {
+
+  try {
+    new URL(originalUrl);
+  } catch {
     alert("Please enter a valid URL");
     return;
   }
