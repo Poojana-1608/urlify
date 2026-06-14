@@ -65,6 +65,11 @@ function Login() {
 
         </form>
 
+        <p style={{ marginTop: "15px" }}>
+          Don't have an account?{" "}
+          <a href="/register">Register</a>
+        </p>
+
       </div>
     </div>
   );

@@ -20,14 +20,15 @@ function Register() {
         password,
       });
 
-      alert(res.data.message || "User Registered Successfully");
+      alert(
+        res.data.message ||
+        "User Registered Successfully"
+      );
 
-      // Clear form
       setName("");
       setEmail("");
       setPassword("");
 
-      // Redirect to Login page
       navigate("/login");
 
     } catch (error) {
@@ -75,6 +76,11 @@ function Register() {
           </button>
 
         </form>
+
+        <p style={{ marginTop: "15px" }}>
+          Already have an account?{" "}
+          <a href="/login">Login</a>
+        </p>
 
       </div>
     </div>
