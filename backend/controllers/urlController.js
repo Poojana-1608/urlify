@@ -8,7 +8,7 @@ const createShortUrl = async (req, res) => {
 
     const shortCode = shortid.generate();
 
-    const newUrl = await Url.create({
+    await Url.create({
       originalUrl,
       shortCode,
       user: req.user.id,
@@ -18,7 +18,6 @@ const createShortUrl = async (req, res) => {
       message: "Short URL Created Successfully",
       shortCode,
       shortUrl: `https://urlify-backend-poojana.onrender.com/${shortCode}`,
-      data: newUrl,
     });
 
   } catch (error) {
@@ -33,30 +32,15 @@ const redirectUrl = async (req, res) => {
   try {
     const { shortCode } = req.params;
 
-    console.log("ShortCode Received:", shortCode);
-
-    const urls = await Url.find();
-
-    console.log("Searching for:", shortCode);
-
-urls.forEach(item => {
-  console.log("DB ShortCode:", JSON.stringify(item.shortCode));
-});
-
-const url = urls.find(
-  item => item.shortCode.toString().trim() === shortCode.toString().trim()
-);
-
-console.log("URL Found:", url);
-
-    console.log("URL Found:", url);
+    const url = await Url.findOne({ shortCode });
 
     if (!url) {
       return res.status(404).json({
-        message: "URL Not Found"
+        message: "URL Not Found",
       });
     }
 
+    // Update Analytics
     url.clicks += 1;
     url.lastVisited = new Date();
 
@@ -65,12 +49,12 @@ console.log("URL Found:", url);
     return res.redirect(url.originalUrl);
 
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: error.message
+    res.status(500).json({
+      message: error.message,
     });
   }
 };
+
 // Get User URLs
 const getUserUrls = async (req, res) => {
   try {
