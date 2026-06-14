@@ -42,28 +42,42 @@ function Dashboard() {
   };
 
   const createUrl = async () => {
-    try {
-      await API.post(
-        "/url/shorten",
-        { originalUrl },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+if (
+  !originalUrl.trim() ||
+  (
+    !originalUrl.startsWith("http://") &&
+    !originalUrl.startsWith("https://")
+  )
+) {
+  alert("Please enter a valid URL");
+  return;
+} {
+    alert("Please enter a valid URL");
+    return;
+  }
 
-      setOriginalUrl("");
+  try {
+    await API.post(
+      "/url/shorten",
+      { originalUrl },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      fetchUrls();
-      fetchAnalytics();
+    setOriginalUrl("");
 
-      alert("Short URL Created Successfully");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    fetchUrls();
+    fetchAnalytics();
 
+    alert("Short URL Created Successfully");
+
+  } catch (error) {
+    console.log(error);
+  }
+};
   const deleteUrl = async (id) => {
     try {
       await API.delete(`/url/${id}`, {
