@@ -11,7 +11,8 @@ function Dashboard() {
 
   const token = localStorage.getItem("token");
 
-  const BASE_URL = "https://urlify-backend-poojana.onrender.com";
+  const BASE_URL =
+    "https://urlify-backend-poojana.onrender.com";
 
   const fetchUrls = async () => {
     try {
@@ -41,37 +42,36 @@ function Dashboard() {
     }
   };
 
- const createUrl = async () => {
+  const createUrl = async () => {
+    try {
+      new URL(originalUrl);
+    } catch {
+      alert("Please enter a valid URL");
+      return;
+    }
 
-  try {
-    new URL(originalUrl);
-  } catch {
-    alert("Please enter a valid URL");
-    return;
-  }
+    try {
+      await API.post(
+        "/url/shorten",
+        { originalUrl },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  try {
-    await API.post(
-      "/url/shorten",
-      { originalUrl },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+      setOriginalUrl("");
 
-    setOriginalUrl("");
+      fetchUrls();
+      fetchAnalytics();
 
-    fetchUrls();
-    fetchAnalytics();
+      alert("Short URL Created Successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    alert("Short URL Created Successfully");
-
-  } catch (error) {
-    console.log(error);
-  }
-};
   const deleteUrl = async (id) => {
     try {
       await API.delete(`/url/${id}`, {
@@ -107,15 +107,14 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-
       <nav className="navbar">
         <h2
-  className="logo"
-  onClick={() => window.location.reload()}
-  style={{ cursor: "pointer" }}
->
-  URLIFY
-</h2>
+          className="logo"
+          onClick={() => window.location.reload()}
+          style={{ cursor: "pointer" }}
+        >
+          URLIFY
+        </h2>
 
         <button
           className="logout-btn"
@@ -126,12 +125,11 @@ function Dashboard() {
       </nav>
 
       <div className="hero">
-
-        <h1>Shorten Your Long URLs 🚀</h1>
+        <h1>Shorten Your URLs 🚀</h1>
 
         <p>
-  Create short links, track clicks and manage URLs efficiently.
-</p>
+          Create short links, track clicks and manage URLs efficiently.
+        </p>
 
         <div className="url-form">
           <input
@@ -147,11 +145,9 @@ function Dashboard() {
             Shorten Now
           </button>
         </div>
-
       </div>
 
       <div className="stats">
-
         <div className="stat-card">
           <h3>Total URLs</h3>
           <h2>{analytics.totalUrls || 0}</h2>
@@ -161,15 +157,12 @@ function Dashboard() {
           <h3>Total Clicks</h3>
           <h2>{analytics.totalClicks || 0}</h2>
         </div>
-
       </div>
 
       <div className="table-container">
-
         <h2>My URLs</h2>
 
         <table>
-
           <thead>
             <tr>
               <th>Original URL</th>
@@ -181,129 +174,127 @@ function Dashboard() {
             </tr>
           </thead>
 
-         <tbody>
+          <tbody>
+            {urls.length === 0 ? (
+              <tr>
+                <td
+                  colSpan="6"
+                  style={{
+                    textAlign: "center",
+                    padding: "30px",
+                  }}
+                >
+                  No URLs created yet 🚀
+                </td>
+              </tr>
+            ) : (
+              urls.map((url) => (
+                <>
+                  <tr key={url._id}>
+                    <td
+                      style={{
+                        maxWidth: "220px",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                      }}
+                      title={url.originalUrl}
+                    >
+                      {url.originalUrl}
+                    </td>
 
-  {urls.length === 0 ? (
-    <tr>
-      <td
-        colSpan="6"
-        style={{
-          textAlign: "center",
-          padding: "30px",
-          fontSize: "18px",
-        }}
-      >
-        No URLs created yet 🚀
-      </td>
-    </tr>
-  ) : (
-    urls.map((url) => (
-      <>
-        <tr key={url._id}>
+                    <td>
+                      <a
+                        href={`${BASE_URL}/${url.shortCode}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                          color: "#60a5fa",
+                          textDecoration: "none",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {url.shortCode}
+                      </a>
+                    </td>
 
-          <td
-            style={{
-              maxWidth: "250px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-            title={url.originalUrl}
-          >
-            {url.originalUrl}
-          </td>
+                    <td>{url.clicks}</td>
 
-          <td>
-            <a
-              href={`${BASE_URL}/${url.shortCode}`}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                color: "#60a5fa",
-                textDecoration: "none",
-                fontWeight: "600",
-              }}
-            >
-              {BASE_URL}/{url.shortCode}
-            </a>
-          </td>
+                    <td>
+                      {new Date(
+                        url.createdAt
+                      ).toLocaleDateString()}
+                    </td>
 
-          <td>{url.clicks}</td>
+                    <td>
+                      {url.lastVisited
+                        ? new Date(
+                            url.lastVisited
+                          ).toLocaleDateString()
+                        : "Never"}
+                    </td>
 
-          <td>
-            {new Date(
-              url.createdAt
-            ).toLocaleDateString()}
-          </td>
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: "8px",
+                          justifyContent: "center",
+                          flexWrap: "nowrap",
+                        }}
+                      >
+                        <button
+                          className="copy-btn"
+                          onClick={() =>
+                            copyUrl(url.shortCode)
+                          }
+                        >
+                          Copy
+                        </button>
 
-          <td>
-            {url.lastVisited
-              ? new Date(
-                  url.lastVisited
-                ).toLocaleDateString()
-              : "Never"}
-          </td>
+                        <button
+                          className="qr-btn"
+                          onClick={() =>
+                            setShowQR(
+                              showQR === url.shortCode
+                                ? ""
+                                : url.shortCode
+                            )
+                          }
+                        >
+                          QR
+                        </button>
 
-          <td>
+                        <button
+                          className="delete-btn"
+                          onClick={() =>
+                            deleteUrl(url._id)
+                          }
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
 
-            <button
-              className="copy-btn"
-              onClick={() =>
-                copyUrl(url.shortCode)
-              }
-            >
-              Copy
-            </button>
-
-            <button
-              className="qr-btn"
-              onClick={() =>
-                setShowQR(
-                  showQR === url.shortCode
-                    ? ""
-                    : url.shortCode
-                )
-              }
-            >
-              QR
-            </button>
-
-            <button
-              className="delete-btn"
-              onClick={() =>
-                deleteUrl(url._id)
-              }
-            >
-              Delete
-            </button>
-
-          </td>
-
-        </tr>
-
-        {showQR === url.shortCode && (
-          <tr>
-            <td colSpan="6">
-              <div className="qr-container">
-                <QRCodeCanvas
-                  value={`${BASE_URL}/${url.shortCode}`}
-                  size={150}
-                />
-              </div>
-            </td>
-          </tr>
-        )}
-
-      </>
-    ))
-  )}
-
-</tbody>
-
+                  {showQR === url.shortCode && (
+                    <tr>
+                      <td colSpan="6">
+                        <div className="qr-container">
+                          <QRCodeCanvas
+                            value={`${BASE_URL}/${url.shortCode}`}
+                            size={150}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </>
+              ))
+            )}
+          </tbody>
         </table>
-
       </div>
-
     </div>
   );
 }

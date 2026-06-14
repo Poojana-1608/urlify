@@ -253,3 +253,50 @@ tbody tr:hover {
 .delete-btn:hover {
   transform: translateY(-2px);
 }
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+td, th {
+  padding: 12px;
+}
+
+td a {
+  word-break: break-all;
+}
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.short-url {
+  display: inline-block;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.original-url {
+  display: inline-block;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
