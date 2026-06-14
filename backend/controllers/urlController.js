@@ -35,20 +35,20 @@ const redirectUrl = async (req, res) => {
 
     console.log("ShortCode Received:", shortCode);
 
-    const allUrls = await Url.find();
-console.log("All URLs:", allUrls);
+    const urls = await Url.find();
 
-    const url = await Url.findOne({ shortCode });
+    const url = urls.find(
+      item => item.shortCode.trim() === shortCode.trim()
+    );
 
     console.log("URL Found:", url);
 
     if (!url) {
       return res.status(404).json({
-        message: "URL Not Found",
+        message: "URL Not Found"
       });
     }
 
-    // Update Analytics
     url.clicks += 1;
     url.lastVisited = new Date();
 
@@ -57,10 +57,9 @@ console.log("All URLs:", allUrls);
     return res.redirect(url.originalUrl);
 
   } catch (error) {
-    console.error(error);
-
+    console.log(error);
     return res.status(500).json({
-      message: error.message,
+      message: error.message
     });
   }
 };
